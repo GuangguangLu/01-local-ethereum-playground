@@ -1,0 +1,8 @@
+node_modules/
+blockchain/out/
+blockchain/cache/
+blockchain/src/OnChainMessageBoard.sol
+frontend/contract.json
+frontend/dist/
+01_Local_Ethereum_Playground/
+.DS_Store

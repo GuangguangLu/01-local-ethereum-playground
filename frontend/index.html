@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Ethereum Playground</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <h1>Local Ethereum Playground</h1>
+    <p class="subtitle">Wallets, Transactions, Smart Contracts and Blocks</p>
+  </header>
+
+  <main>
+    <section id="status-section" class="card">
+      <h2>Blockchain Status</h2>
+      <div class="status-grid">
+        <div class="status-item"><span class="label">Network</span><span id="network-name">Anvil Local Ethereum</span></div>
+        <div class="status-item"><span class="label">Chain ID</span><span id="chain-id">--</span></div>
+        <div class="status-item"><span class="label">RPC</span><span id="rpc-status" class="disconnected">Disconnected</span></div>
+        <div class="status-item"><span class="label">Latest Block</span><span id="latest-block">#--</span></div>
+        <div class="status-item"><span class="label">Total Blocks</span><span id="total-blocks">--</span></div>
+      </div>
+    </section>
+
+    <section id="wallet-section" class="card wallet-workspace">
+      <div class="wallet-transfer-grid">
+        <div class="workspace-panel wallet-login-panel">
+          <h2>Wallet Login</h2>
+          <div class="warning">Local Test Wallets Only — Never enter a real wallet private key here.</div>
+          <div id="login-form">
+            <div class="form-group">
+              <label for="wallet-address">Wallet Address</label>
+              <input type="text" id="wallet-address" placeholder="0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" />
+            </div>
+            <div class="form-group">
+              <label for="private-key">Private Key</label>
+              <input type="password" id="private-key" placeholder="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80" />
+            </div>
+            <button id="login-btn" type="button">Login Wallet</button>
+            <p id="login-error" class="error"></p>
+          </div>
+          <div id="wallet-info" class="hidden">
+            <p class="connected-badge">Wallet Connected</p>
+            <p class="mono connected-address" id="connected-address"></p>
+            <button id="logout-btn" type="button" class="btn-secondary">Logout</button>
+          </div>
+        </div>
+
+        <div id="send-section" class="workspace-panel transfer-panel hidden">
+          <h2>Send ETH</h2>
+          <div class="form-group">
+            <label for="send-from">From</label>
+            <input type="text" id="send-from" readonly />
+          </div>
+          <div class="form-group">
+            <label for="send-to">To</label>
+            <input type="text" id="send-to" placeholder="0x70997970C51812dc3A010C7d01b50e0d17dc79C8" />
+          </div>
+          <div class="form-group">
+            <label for="send-amount">Amount (ETH)</label>
+            <input type="text" id="send-amount" value="1" />
+          </div>
+          <button id="send-btn" type="button">Send Transaction</button>
+          <p id="send-status" class="status-msg" aria-live="polite"></p>
+          <p id="send-error" class="error"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contract-section" class="card contract-card">
+      <div class="contract-heading">
+        <div>
+          <p class="explorer-kicker">Smart contract</p>
+          <h2>On-Chain Message Board</h2>
+        </div>
+        <div class="contract-actions">
+          <span id="contract-status" class="contract-status">Checking deployment…</span>
+          <button id="contract-refresh-btn" type="button" class="btn-secondary compact-button">Refresh</button>
+        </div>
+      </div>
+
+      <div id="contract-empty" class="contract-empty">
+        <strong>No active deployment found</strong>
+        <p>Edit <code>NAME</code> in the Solidity contract, then run <code>yarn deploy</code>.</p>
+      </div>
+
+      <div id="contract-content" class="hidden">
+        <dl class="contract-meta">
+          <div><dt>Contract</dt><dd id="contract-address" class="mono"></dd></div>
+          <div><dt>Deployment transaction</dt><dd id="contract-deployment-tx" class="mono"></dd></div>
+          <div><dt>Deployment block</dt><dd id="contract-deployment-block"></dd></div>
+        </dl>
+
+        <div class="message-compose">
+          <h3>Write a permanent message</h3>
+          <p class="subtle">Each message is shown inside its block below, just like an ETH transfer.</p>
+          <label for="contract-message" class="sr-only">Message</label>
+          <textarea id="contract-message" rows="3" placeholder="Hello from the blockchain"></textarea>
+          <div class="compose-footer">
+            <span id="contract-message-bytes">0 / 280 bytes</span>
+            <button id="contract-write-btn" type="button" disabled>Write to Blockchain</button>
+          </div>
+          <p id="contract-write-help" class="subtle">Login with a local test wallet to write.</p>
+          <p id="contract-write-status" class="status-msg" aria-live="polite"></p>
+          <p id="contract-error" class="error"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="explorer-section" class="card explorer-card">
+      <div class="explorer-heading">
+        <div>
+          <p class="explorer-kicker">Live chain</p>
+          <h2>Blockchain Explorer</h2>
+        </div>
+        <p id="explorer-connection" class="live-indicator">
+          <span aria-hidden="true"></span>
+          <span id="explorer-connection-text">Auto-updating · 2s</span>
+        </p>
+      </div>
+      <p id="explorer-instructions" class="explorer-help">Genesis starts on the left. Each new block points back to its parent.</p>
+      <div id="blocks-container" class="blockchain-track" role="list" tabindex="0" aria-label="Local Ethereum blockchain, oldest to newest" aria-describedby="explorer-instructions">
+        <div class="explorer-state">Loading blocks…</div>
+      </div>
+      <p id="explorer-live-status" class="sr-only" aria-live="polite"></p>
+    </section>
+
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

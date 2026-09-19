@@ -1,0 +1,17 @@
+{
+  "name": "01-local-ethereum-playground",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "chain": "anvil",
+    "start": "vite",
+    "deploy": "forge test --root blockchain && node scripts/deploy.js"
+  },
+  "dependencies": {
+    "viem": "^2.31.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.0"
+  }
+}
