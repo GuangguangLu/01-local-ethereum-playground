@@ -40,7 +40,7 @@ function requireHexBytecode(artifact) {
 async function main() {
   if (process.argv.length > 2) {
     throw new Error(
-      'This lab uses one command only: yarn deploy. Edit STUDENT_NAME in the Solidity file before deploying.',
+      'This lab uses one command only: yarn deploy. Do not pass extra arguments.',
     )
   }
 
@@ -103,9 +103,6 @@ async function main() {
   console.log(`Transaction: ${hash}`)
   console.log(`Block: ${receipt.blockNumber}`)
   console.log(`Initial message: ${initialMessage}`)
-  if (initialMessage.includes('"NAME"')) {
-    console.log('TIP: Replace STUDENT_NAME = "NAME" in the Solidity file, then deploy again.')
-  }
   console.log('The frontend deployment file is ready. Open or refresh the webpage.')
 }
 

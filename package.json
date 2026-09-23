@@ -6,7 +6,7 @@
   "scripts": {
     "chain": "anvil",
     "start": "vite",
-    "deploy": "forge test --root blockchain && node scripts/deploy.js"
+    "deploy": "forge build --root blockchain && node scripts/deploy.js"
   },
   "dependencies": {
     "viem": "^2.31.0"
