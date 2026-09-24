@@ -61,6 +61,25 @@ async function updateBlockchainStatus() {
   }
 }
 
+async function updateConnectedWalletBalance(showLoading = false) {
+  if (!currentAccount || !publicClient) return
+
+  const accountAddress = currentAccount.address
+  const balanceElement = $('connected-balance')
+  if (showLoading) balanceElement.textContent = 'Loading…'
+  balanceElement.classList.remove('balance-error')
+
+  try {
+    const balance = await publicClient.getBalance({ address: accountAddress })
+    if (!currentAccount || currentAccount.address !== accountAddress) return
+    balanceElement.textContent = formatBalance(balance)
+  } catch {
+    if (!currentAccount || currentAccount.address !== accountAddress) return
+    balanceElement.textContent = 'Unavailable'
+    balanceElement.classList.add('balance-error')
+  }
+}
+
 function handleLogin() {
   const addressInput = $('wallet-address').value.trim()
   const pkInput = $('private-key').value.trim()
@@ -98,6 +117,7 @@ function handleLogin() {
   $('send-section').classList.remove('hidden')
   $('send-from').value = currentAccount.address
   updateContractWriteState()
+  void updateConnectedWalletBalance(true)
 }
 
 function handleLogout() {
@@ -111,6 +131,8 @@ function handleLogout() {
   $('login-error').textContent = ''
   $('send-status').textContent = ''
   $('send-error').textContent = ''
+  $('connected-balance').textContent = '—'
+  $('connected-balance').classList.remove('balance-error')
   updateContractWriteState()
 }
 
@@ -148,6 +170,7 @@ async function handleSendTransaction() {
     $('send-status').textContent = receipt.status === 'success'
       ? `Confirmed in block #${receipt.blockNumber}.`
       : `Transaction failed in block #${receipt.blockNumber}.`
+    await updateConnectedWalletBalance()
   } catch (error) {
     $('send-error').textContent = `Transaction failed: ${error.shortMessage || error.message}`
     $('send-status').textContent = ''
@@ -314,6 +337,7 @@ async function handleStoreMessage() {
     $('contract-write-status').textContent = `Stored permanently in block #${receipt.blockNumber}.`
     await readContractSummary()
     await fetchInitialBlocks()
+    await updateConnectedWalletBalance()
   } catch (error) {
     $('contract-write-status').textContent = ''
     $('contract-error').textContent = `Write failed: ${error.shortMessage || error.message}`
@@ -618,6 +642,7 @@ async function pollNewBlocks() {
       $('rpc-status').className = 'connected'
       setExplorerConnection(true)
 
+      await updateConnectedWalletBalance()
       if (contractAvailable) await readContractSummary()
     }
   } catch {

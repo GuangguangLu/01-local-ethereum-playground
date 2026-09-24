@@ -181,6 +181,26 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+.connected-wallet-balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(0, 184, 148, 0.08);
+  border: 1px solid rgba(0, 184, 148, 0.28);
+  border-radius: var(--radius);
+}
+.connected-wallet-balance span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+.connected-wallet-balance strong {
+  color: var(--success);
+  font-family: var(--font-mono);
+}
+.connected-wallet-balance strong.balance-error { color: var(--error); }
 
 /* On-chain message board */
 .contract-card {

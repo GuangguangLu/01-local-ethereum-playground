@@ -44,6 +44,10 @@
           <div id="wallet-info" class="hidden">
             <p class="connected-badge">Wallet Connected</p>
             <p class="mono connected-address" id="connected-address"></p>
+            <div class="connected-wallet-balance">
+              <span>Balance</span>
+              <strong id="connected-balance" aria-live="polite">Loading…</strong>
+            </div>
             <button id="logout-btn" type="button" class="btn-secondary">Logout</button>
           </div>
         </div>
@@ -62,7 +66,7 @@
             <label for="send-amount">Amount (ETH)</label>
             <input type="text" id="send-amount" value="1" />
           </div>
-          <button id="send-btn" type="button">Send Transaction</button>
+          <button id="send-btn" type="button">Transfer</button>
           <p id="send-status" class="status-msg" aria-live="polite"></p>
           <p id="send-error" class="error"></p>
         </div>
